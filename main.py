@@ -71,7 +71,10 @@ cudnn.benchmark = True
 
 
 ############################## PREPARE DATASET ##########################
-train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all()
+if not args.classification:
+	train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all()
+else:
+	train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all_classification()
 
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
