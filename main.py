@@ -126,6 +126,8 @@ for epoch in range(args.epochs):
 
 		model.zero_grad()
 		prediction = model(user, item)
+		print("prediction is ", prediction)
+		print("label is ", label)
 		loss = loss_function(prediction, label)
 		loss.backward()
 		optimizer.step()

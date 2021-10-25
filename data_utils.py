@@ -75,7 +75,7 @@ def load_all_classification(test_num=100):
 			for i in arr[1:]:
 				test_data.append([u, int(i), 0])
 			line = fd.readline()
-	print("test data is ", test_data[:3])
+	print("test data is \n", test_data[:3])
 	return train_data, test_data, user_num, item_num, train_mat
 
 
