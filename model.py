@@ -36,7 +36,7 @@ class NCF(nn.Module):
 			MLP_modules.append(nn.Linear(input_size, input_size//2))
 			MLP_modules.append(nn.ReLU())
 		self.MLP_layers = nn.Sequential(*MLP_modules)
-
+		self.classification = classification
 		if self.model in ['MLP', 'GMF']:
 			predict_size = factor_num 
 		else:
