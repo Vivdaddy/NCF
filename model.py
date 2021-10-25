@@ -45,7 +45,7 @@ class NCF(nn.Module):
 			self.predict_layer = nn.Linear(predict_size, 1)
 		else:
 			self.predict_layer = nn.Linear(predict_size, 6)
-			self.final_activation = nn.Softmax(predict_size, -1)
+			self.final_activation = nn.Softmax(-1)
 
 		self._init_weight_()
 
