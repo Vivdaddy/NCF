@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class NCF(nn.Module):
 	def __init__(self, user_num, item_num, factor_num, num_layers,
-					dropout, model, GMF_model=None, MLP_model=None):
+					dropout, model, classification=True, GMF_model=None, MLP_model=None):
 		super(NCF, self).__init__()
 		"""
 		user_num: number of users;
@@ -41,7 +41,11 @@ class NCF(nn.Module):
 			predict_size = factor_num 
 		else:
 			predict_size = factor_num * 2
-		self.predict_layer = nn.Linear(predict_size, 1)
+		if not classification:
+			self.predict_layer = nn.Linear(predict_size, 1)
+		else:
+			self.predict_layer = nn.Linear(predict_size, 6)
+			self.final_activation = nn.Softmax(6)
 
 		self._init_weight_()
 
@@ -108,5 +112,10 @@ class NCF(nn.Module):
 		else:
 			concat = torch.cat((output_GMF, output_MLP), -1)
 
-		prediction = self.predict_layer(concat)
-		return prediction.view(-1)
+		if not self.classification:
+			prediction = self.predict_layer(concat)
+			return prediction.view(-1)
+		else:
+			prediction = self.predict_layer(concat)
+			prediction = self.final_activation(prediction)
+			return prediction

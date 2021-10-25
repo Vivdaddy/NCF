@@ -60,6 +60,10 @@ parser.add_argument("--gpu",
 	type=str,
 	default="0",  
 	help="gpu card ID")
+parser.add_argument("--classification",
+	type=bool,
+	default=True,
+	help="Whether to use classification or not")
 args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
@@ -90,9 +94,13 @@ else:
 	MLP_model = None
 
 model = model.NCF(user_num, item_num, args.factor_num, args.num_layers, 
-						args.dropout, config.model, GMF_model, MLP_model)
+						args.dropout, config.model, args.classification, GMF_model, MLP_model)
 model.cuda()
-loss_function = nn.BCEWithLogitsLoss()
+
+if not args.classification:
+	loss_function = nn.BCEWithLogitsLoss()
+else:
+	loss_function = nn.CrossEntropyLoss()
 
 if config.model == 'NeuMF-pre':
 	optimizer = optim.SGD(model.parameters(), lr=args.lr)
