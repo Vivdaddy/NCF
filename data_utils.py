@@ -69,8 +69,8 @@ def load_all_classification(test_num=100):
 		while line != None and line != '':
 			arr = line.split('\t')
 			u = eval(arr[0])[0]
-			print("u is ", u)
-			print("For user u \n", test_df[test_df['user']==u])
+			# print("u is ", u)
+			# print("For user u \n", test_df[test_df['user']==u])
 			test_data.append([u, eval(arr[0])[1], test_df[test_df['user'] == u]['rating']])
 			for i in arr[1:]:
 				test_data.append([u, int(i), 0])
