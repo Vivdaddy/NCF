@@ -71,7 +71,7 @@ def load_all_classification(test_num=100):
 			u = eval(arr[0])[0]
 			print("u is ", u)
 			print("For user u", test_df[test_df['user']==u])
-			test_data.append([u, eval(arr[0])[1], test_df.loc[test_df['user' == u]]['rating']])
+			test_data.append([u, eval(arr[0])[1], test_df[test_df['user' == u]].loc['rating']])
 			for i in arr[1:]:
 				test_data.append([u, int(i), 0])
 			line = fd.readline()
