@@ -44,7 +44,7 @@ def load_all_classification(test_num=100):
 	train_data = pd.read_csv(
 		config.train_rating, 
 		sep='\t', header=None, names=['user', 'item', 'rating'], 
-		usecols=[0, 1, 2, 3], dtype={0: np.int32, 1: np.int32, 2: np.int32})
+		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 
 	user_num = train_data['user'].max() + 1
 	item_num = train_data['item'].max() + 1
@@ -57,15 +57,21 @@ def load_all_classification(test_num=100):
 		train_mat[x[0], x[1]] = x[2]
 
 	test_data = []
+	test_df = pd.read_csv(
+		config.train_rating, 
+		sep='\t', header=None, names=['user', 'item', 'rating'], 
+		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
+
 	with open(config.test_negative, 'r') as fd:
 		line = fd.readline()
 		while line != None and line != '':
 			arr = line.split('\t')
 			u = eval(arr[0])[0]
-			test_data.append([u, eval(arr[0])[1]])
+			test_data.append([u, eval(arr[0])[1], test_df[test_df['user' == u]]['rating']])
 			for i in arr[1:]:
-				test_data.append([u, int(i)])
+				test_data.append([u, int(i), 0])
 			line = fd.readline()
+	print("test data is ", test_data[:3])
 	return train_data, test_data, user_num, item_num, train_mat
 
 
