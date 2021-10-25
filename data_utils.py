@@ -58,9 +58,11 @@ def load_all_classification(test_num=100):
 
 	test_data = []
 	test_df = pd.read_csv(
-		config.train_rating, 
+		config.test_rating, 
 		sep='\t', header=None, names=['user', 'item', 'rating'], 
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
+
+	print("test_df is ", test_df.head())
 
 	with open(config.test_negative, 'r') as fd:
 		line = fd.readline()
