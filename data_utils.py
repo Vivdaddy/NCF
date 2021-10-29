@@ -115,6 +115,7 @@ class NCFData(data.Dataset):
 		else:
 			# print(self.features_ps)
 			self.features_ng = []
+			labels_ps = []
 			for x in self.features_ps:
 				u = x[0]
 				for t in range(self.num_ng):
@@ -122,8 +123,9 @@ class NCFData(data.Dataset):
 					while (u, j) in self.train_mat:
 						j = np.random.randint(self.num_item)
 					self.features_ng.append([u, j])
+					labels_ps.append(x[2])
 
-			labels_ps = [i[2] for i in self.features_ps]
+			# labels_ps = [i[2] for i in self.features_ps]
 			labels_ng = [0 for _ in range(len(self.features_ng))]
 
 			self.features_fill = self.features_ps 
@@ -140,8 +142,6 @@ class NCFData(data.Dataset):
 					else self.features_ps
 		labels = self.labels_fill if self.is_training \
 					else self.labels
-		if idx==0:
-			print(features[idx])
 		user = features[idx][0]
 		item = features[idx][1]
 		label = labels[idx]
