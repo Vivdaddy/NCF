@@ -121,7 +121,7 @@ class NCFData(data.Dataset):
 						j = np.random.randint(self.num_item)
 					self.features_ng.append([u, j])
 
-			labels_ps = [x[2] for i in self.features_ng]
+			labels_ps = [x[2] for i in self.features_ps]
 			labels_ng = [0 for _ in range(len(self.features_ng))]
 
 			self.features_fill = self.features_ps + self.features_ng
