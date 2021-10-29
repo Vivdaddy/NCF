@@ -113,6 +113,7 @@ class NCFData(data.Dataset):
 			self.features_fill = self.features_ps + self.features_ng
 			self.labels_fill = labels_ps + labels_ng
 		else:
+			print(self.features_ps)
 			self.features_ng = []
 			for x in self.features_ps:
 				u = x[0]
