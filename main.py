@@ -164,7 +164,7 @@ for epoch in range(args.epochs):
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 		print("Accuracy{:.3f}".format(np.mean(accuracy)))
 		if accuracy > best_acc:
-			best_acc, best_epoch = HR, epoch
+			best_acc, best_epoch = accuracy, epoch
 			if args.out:
 				if not os.path.exists(config.model_path):
 					os.mkdir(config.model_path)
