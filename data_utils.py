@@ -127,7 +127,8 @@ class NCFData(data.Dataset):
 
 			self.features_fill = self.features_ps + self.features_ng
 			labels =  labels_ps + labels_ng
-			self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
+			# self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
+			self.labels_fill = torch.Tensor(labels).reshape(-1, 1)
 			
 
 	def __len__(self):
