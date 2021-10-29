@@ -35,7 +35,7 @@ def load_all(test_num=100):
 			for i in arr[1:]:
 				test_data.append([u, int(i)])
 			line = fd.readline()
-	print(test_data[:3])
+	# print(test_data[:3])
 	return train_data, test_data, user_num, item_num, train_mat
 
 
@@ -63,7 +63,7 @@ def load_all_classification(test_num=100):
 		sep='\t', header=None, names=['user', 'item', 'rating'], 
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 
-	print("test_df is \n", test_df.head())
+	# print("test_df is \n", test_df.head())
 
 	with open(config.test_negative, 'r') as fd:
 		line = fd.readline()
@@ -76,7 +76,7 @@ def load_all_classification(test_num=100):
 			for i in arr[1:]:
 				test_data.append([u, int(i), 0])
 			line = fd.readline()
-	print("test data is \n", test_data[:3])
+	# print("test data is \n", test_data[:3])
 	return train_data, test_data, user_num, item_num, train_mat
 
 
