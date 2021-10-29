@@ -126,10 +126,12 @@ class NCFData(data.Dataset):
 					# labels_ps.append(x[2])
 
 			labels_ps = [i[2] for i in self.features_ps]
-			labels_ng = [0 for _ in range(len(self.features_ng))]
+			# labels_ng = [0 for _ in range(len(self.features_ng))]
 
-			self.features_fill = self.features_ps +self.features_ng
-			labels =  labels_ps + labels_ng
+			# self.features_fill = self.features_ps +self.features_ng
+			self.features_fill = self.features_ps
+			# labels =  labels_ps + labels_ng
+			labels = labels_ps
 			# self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
 			self.labels_fill = torch.Tensor(labels).to(torch.long)
 			
