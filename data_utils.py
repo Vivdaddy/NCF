@@ -81,7 +81,7 @@ def load_all_classification(test_num=100):
 
 class NCFData(data.Dataset):
 	def __init__(self, features, 
-				num_item, train_mat=None, num_ng=0, is_training=None):
+				num_item, train_mat=None, num_ng=0, is_training=None, classification=True):
 		super(NCFData, self).__init__()
 		""" Note that the labels are only useful when training, we thus 
 			add them in the ng_sample() function.
@@ -92,24 +92,41 @@ class NCFData(data.Dataset):
 		self.num_ng = num_ng
 		self.is_training = is_training
 		self.labels = [0 for _ in range(len(features))]
+		self.classification = classification
 
 	def ng_sample(self):
 		assert self.is_training, 'no need to sampling when testing'
-
-		self.features_ng = []
-		for x in self.features_ps:
-			u = x[0]
-			for t in range(self.num_ng):
-				j = np.random.randint(self.num_item)
-				while (u, j) in self.train_mat:
+		if not self.classification:
+			self.features_ng = []
+			for x in self.features_ps:
+				u = x[0]
+				for t in range(self.num_ng):
 					j = np.random.randint(self.num_item)
-				self.features_ng.append([u, j])
+					while (u, j) in self.train_mat:
+						j = np.random.randint(self.num_item)
+					self.features_ng.append([u, j])
 
-		labels_ps = [1 for _ in range(len(self.features_ps))]
-		labels_ng = [0 for _ in range(len(self.features_ng))]
+			labels_ps = [1 for _ in range(len(self.features_ps))]
+			labels_ng = [0 for _ in range(len(self.features_ng))]
 
-		self.features_fill = self.features_ps + self.features_ng
-		self.labels_fill = labels_ps + labels_ng
+			self.features_fill = self.features_ps + self.features_ng
+			self.labels_fill = labels_ps + labels_ng
+		else:
+			self.features_ng = []
+			for x in self.features_ps:
+				u = x[0]
+				for t in range(self.num_ng):
+					j = np.random.randint(self.num_item)
+					while (u, j) in self.train_mat:
+						j = np.random.randint(self.num_item)
+					self.features_ng.append([u, j])
+
+			labels_ps = [x[2] for i in self.features_ng]
+			labels_ng = [0 for _ in range(len(self.features_ng))]
+
+			self.features_fill = self.features_ps + self.features_ng
+			self.labels_fill = labels_ps + labels_ng
+			
 
 	def __len__(self):
 		return (self.num_ng + 1) * len(self.labels)
