@@ -44,7 +44,8 @@ def accuracy(model, test_loader):
 		label = label.cuda()
 		prediction = model(user, item)
 		argmax_prediction = torch.argmax(prediction, dim=1)
-		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
+		# correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
+		correct += (argmax_prediction == label).float(sum)
 	print("Length of test dataset is ", len(test_loader.dataset))
 	accuracy = 100* correct / len(test_loader.dataset)
 	return accuracy
