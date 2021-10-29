@@ -114,6 +114,7 @@ else:
 
 ########################### TRAINING #####################################
 count, best_hr = 0, 0
+best_acc = 0
 for epoch in range(args.epochs):
 	model.train() # Enable dropout (if have).
 	start_time = time.time()
@@ -138,20 +139,37 @@ for epoch in range(args.epochs):
 		count += 1
 
 	model.eval()
-	HR, NDCG = evaluate.metrics(model, test_loader, args.top_k, args.classification)
+	if not args.classification:
+		HR, NDCG = evaluate.metrics(model, test_loader, args.top_k, args.classification)
 
-	elapsed_time = time.time() - start_time
-	print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
+		elapsed_time = time.time() - start_time
+		print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
-	print("HR: {:.3f}\tNDCG: {:.3f}".format(np.mean(HR), np.mean(NDCG)))
+		print("HR: {:.3f}\tNDCG: {:.3f}".format(np.mean(HR), np.mean(NDCG)))
 
-	if HR > best_hr:
-		best_hr, best_ndcg, best_epoch = HR, NDCG, epoch
-		if args.out:
-			if not os.path.exists(config.model_path):
-				os.mkdir(config.model_path)
-			torch.save(model, 
-				'{}{}.pth'.format(config.model_path, config.model))
+		if HR > best_hr:
+			best_hr, best_ndcg, best_epoch = HR, NDCG, epoch
+			if args.out:
+				if not os.path.exists(config.model_path):
+					os.mkdir(config.model_path)
+				torch.save(model, 
+					'{}{}.pth'.format(config.model_path, config.model))
 
-print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
+		print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
 									best_epoch, best_hr, best_ndcg))
+	else:
+		accuracy = evaluate.accuracy(model, test_loader)
+		elapsed_time = time.time() - start_time
+		print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
+			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
+		print("Accuracy{:.3f}".format(np.mean(accuracy)))
+		if accuracy > best_acc:
+			best_acc, best_epoch = HR, epoch
+			if args.out:
+				if not os.path.exists(config.model_path):
+					os.mkdir(config.model_path)
+				torch.save(model, 
+					'{}{}.pth'.format(config.model_path, config.model))
+
+		print("End. Best epoch {:03d}: Accuracy = {:.3f}".format(
+									best_epoch, best_acc))

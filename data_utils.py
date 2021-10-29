@@ -115,19 +115,19 @@ class NCFData(data.Dataset):
 		else:
 			# print(self.features_ps)
 			self.features_ng = []
-			for x in self.features_ps:
-				u = x[0]
-				for t in range(self.num_ng):
-					j = np.random.randint(self.num_item)
-					while (u, j) in self.train_mat:
-						j = np.random.randint(self.num_item)
-					self.features_ng.append([u, j])
+			# for x in self.features_ps:
+			# 	u = x[0]
+			# 	for t in range(self.num_ng):
+			# 		j = np.random.randint(self.num_item)
+			# 		while (u, j) in self.train_mat:
+			# 			j = np.random.randint(self.num_item)
+			# 		self.features_ng.append([u, j])
 
-			labels_ps = [x[2] for i in self.features_ps]
-			labels_ng = [0 for _ in range(len(self.features_ng))]
+			labels_ps = [i[2] for i in self.features_ps]
+			# labels_ng = [0 for _ in range(len(self.features_ng))]
 
-			self.features_fill = self.features_ps + self.features_ng
-			labels =  labels_ps + labels_ng
+			self.features_fill = self.features_ps 
+			labels =  labels_ps 
 			# self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
 			self.labels_fill = torch.Tensor(labels).to(torch.long)
 			
