@@ -122,7 +122,10 @@ for epoch in range(args.epochs):
 	for user, item, label in train_loader:
 		user = user.cuda()
 		item = item.cuda()
-		label = label.float().cuda()
+		if not args.classification:
+			label = label.float().cuda()
+		else:
+			label = label.cuda()
 
 		model.zero_grad()
 		prediction = model(user, item)
