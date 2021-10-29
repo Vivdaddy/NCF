@@ -4,6 +4,7 @@ import scipy.sparse as sp
 
 import torch.utils.data as data
 from torch.nn.functional import one_hot
+import torch
 import config
 
 
@@ -126,7 +127,7 @@ class NCFData(data.Dataset):
 
 			self.features_fill = self.features_ps + self.features_ng
 			labels =  labels_ps + labels_ng
-			self.labels_fill = one_hot(labels, num_classes=6)
+			self.labels_fill = one_hot(torch.Tensor(labels), num_classes=6)
 			
 
 	def __len__(self):
