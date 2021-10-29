@@ -140,8 +140,8 @@ class NCFData(data.Dataset):
 					else self.features_ps
 		labels = self.labels_fill if self.is_training \
 					else self.labels
-		# print("features", features)
-
+		if idx==0:
+			print(features[idx])
 		user = features[idx][0]
 		item = features[idx][1]
 		label = labels[idx]
