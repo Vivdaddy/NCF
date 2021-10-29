@@ -117,5 +117,5 @@ class NCF(nn.Module):
 			return prediction.view(-1)
 		else:
 			prediction = self.predict_layer(concat)
-			prediction = self.final_activation(prediction)
+			# prediction = self.final_activation(prediction)
 			return prediction
