@@ -121,7 +121,6 @@ for epoch in range(args.epochs):
 	train_loader.dataset.ng_sample()
 
 	for user, item, label in train_loader:
-		print("Can print now")
 		user = user.cuda()
 		item = item.cuda()
 		if not args.classification:

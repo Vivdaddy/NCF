@@ -15,40 +15,34 @@ def ndcg(gt_item, pred_items):
 	return 0
 
 
-def metrics(model, test_loader, top_k, classification=True):
+def metrics(model, test_loader, top_k):
 	HR, NDCG = [], []
 
-	if not classification:
-		for user, item, label in test_loader:
-			user = user.cuda()
-			item = item.cuda()
+	for user, item, label in test_loader:
+		user = user.cuda()
+		item = item.cuda()
 
-			predictions = model(user, item)
-			print("predictions \n", predictions)
-			print("topk ", top_k)
-			_, indices = torch.topk(predictions, top_k)
-			recommends = torch.take(
-					item, indices).cpu().numpy().tolist()
+		predictions = model(user, item)
+		print("predictions \n", predictions)
+		print("topk ", top_k)
+		_, indices = torch.topk(predictions, top_k)
+		recommends = torch.take(
+				item, indices).cpu().numpy().tolist()
 
-			gt_item = item[0].item()
-			HR.append(hit(gt_item, recommends))
-			NDCG.append(ndcg(gt_item, recommends))
+		gt_item = item[0].item()
+		HR.append(hit(gt_item, recommends))
+		NDCG.append(ndcg(gt_item, recommends))
 
-		return np.mean(HR), np.mean(NDCG)
-	else:
-		for user, item, label in test_loader:
-			user = user.cuda()
-			item = item.cuda()
+	return np.mean(HR), np.mean(NDCG)
 
-			predictions = model(user, item)
-			print("predictions \n", predictions)
-			print("topk ", top_k)
-			_, indices = torch.topk(predictions, top_k)
-			recommends = torch.take(
-					item, indices).cpu().numpy().tolist()
 
-			gt_item = item[0].item()
-			HR.append(hit(gt_item, recommends))
-			NDCG.append(ndcg(gt_item, recommends))
-
-		return np.mean(HR), np.mean(NDCG)
+def accuracy(model, test_loader):
+	correct = 0
+	for user, item, label in test_loader:
+		user = user.cuda()
+		item = item.cuda()
+		prediction = model(user, item)
+		argmax_prediction = torch.argmax(prediction, dim=1)
+        correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
+	accuracy = 100* correct / len(test_loader.dataset)
+	return accuracy
