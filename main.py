@@ -62,7 +62,7 @@ parser.add_argument("--gpu",
 	help="gpu card ID")
 parser.add_argument("--classification",
 	type=bool,
-	default=True,
+	default=False,
 	help="Whether to use classification or not")
 args = parser.parse_args()
 
