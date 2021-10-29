@@ -78,9 +78,9 @@ else:
 
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
-		train_data, item_num, train_mat, args.num_ng, True)
+		train_data, item_num, train_mat, args.num_ng, True, args.classification)
 test_dataset = data_utils.NCFData(
-		test_data, item_num, train_mat, 0, False)
+		test_data, item_num, train_mat, 0, False, args.classification)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
 test_loader = data.DataLoader(test_dataset,
@@ -138,7 +138,7 @@ for epoch in range(args.epochs):
 		count += 1
 
 	model.eval()
-	HR, NDCG = evaluate.metrics(model, test_loader, args.top_k)
+	HR, NDCG = evaluate.metrics(model, test_loader, args.top_k, args.classification)
 
 	elapsed_time = time.time() - start_time
 	print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 

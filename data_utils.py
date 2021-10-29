@@ -82,7 +82,7 @@ def load_all_classification(test_num=100):
 
 class NCFData(data.Dataset):
 	def __init__(self, features, 
-				num_item, train_mat=None, num_ng=0, is_training=None, classification=False):
+				num_item, train_mat=None, num_ng=0, is_training=None, classification=True):
 		super(NCFData, self).__init__()
 		""" Note that the labels are only useful when training, we thus 
 			add them in the ng_sample() function.
