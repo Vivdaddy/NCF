@@ -51,11 +51,12 @@ def load_all_classification(test_num=100):
 	item_num = train_data['item'].max() + 1
 
 	train_data = train_data.values.tolist()
-
+	train_labels = []
 	# load ratings as a dok matrix
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in train_data:
 		train_mat[x[0], x[1]] = x[2]
+		train_labels.append[x[2]]
 
 	test_data = []
 	test_df = pd.read_csv(
@@ -64,6 +65,12 @@ def load_all_classification(test_num=100):
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 
 	test_data = test_df.values.tolist()
+	test_labels = []
+	# load ratings as a dok matrix
+	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
+	for x in test_data:
+		test_mat[x[0], x[1]] = x[2]
+		test_labels.append[x[2]]
 	# print("test_df is \n", test_df.head())
 
 	# with open(config.test_negative, 'r') as fd:
@@ -78,12 +85,12 @@ def load_all_classification(test_num=100):
 	# 			test_data.append([u, int(i), 0])
 	# 		line = fd.readline()
 	# print("test data is \n", test_data[:3])
-	return train_data, test_data, user_num, item_num, train_mat
+	return train_data, test_data, user_num, item_num, train_mat, train_labels, test_labels
 
 
 class NCFData(data.Dataset):
 	def __init__(self, features, 
-				num_item, train_mat=None, num_ng=0, is_training=None, classification=True):
+				num_item, labels, train_mat=None, num_ng=0, is_training=None, classification=True):
 		super(NCFData, self).__init__()
 		""" Note that the labels are only useful when training, we thus 
 			add them in the ng_sample() function.
@@ -93,7 +100,7 @@ class NCFData(data.Dataset):
 		self.train_mat = train_mat
 		self.num_ng = num_ng
 		self.is_training = is_training
-		self.labels = [0 for _ in range(len(features))]
+		self.labels = labels
 		self.classification = classification
 
 	def ng_sample(self):
@@ -136,7 +143,8 @@ class NCFData(data.Dataset):
 			####
 			# self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
 			self.labels_fill = torch.Tensor(labels).to(torch.long)
-			
+	
+
 
 	def __len__(self):
 		return (self.num_ng + 1) * len(self.labels)
