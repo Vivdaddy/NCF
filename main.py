@@ -83,6 +83,8 @@ test_dataset = data_utils.NCFData(
 		test_data, item_num, train_mat, 0, False, args.classification)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
+print("Making test loader")
+print("Test dataset is ", test_dataset)
 test_loader = data.DataLoader(test_dataset,
 		batch_size=args.test_num_ng+1, shuffle=False, num_workers=0)
 
