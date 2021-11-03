@@ -78,7 +78,7 @@ else:
 
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
-		train_data, item_num, train_mat, args.num_ng, True, args.classification)
+		train_data, item_num, train_mat, 0, False, args.classification)
 print("Making test loader")
 #print("Test data is ", test_data)
 print("Length of test data before test loader is ", len(test_data))
@@ -122,7 +122,7 @@ best_acc = 0
 for epoch in range(args.epochs):
 	model.train() # Enable dropout (if have).
 	start_time = time.time()
-	train_loader.dataset.ng_sample()
+	# train_loader.dataset.ng_sample()
 
 	for user, item, label in train_loader:
 		user = user.cuda()
