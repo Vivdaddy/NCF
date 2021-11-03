@@ -38,6 +38,7 @@ def metrics(model, test_loader, top_k):
 
 def accuracy(model, test_loader):
 	correct = 0
+	print("Length of test loader", len(test_loader))
 	for user, item, label in test_loader:
 		user = user.cuda()
 		item = item.cuda()

@@ -65,17 +65,17 @@ def load_all_classification(test_num=100):
 
 	# print("test_df is \n", test_df.head())
 
-	with open(config.test_negative, 'r') as fd:
-		line = fd.readline()
-		while line != None and line != '':
-			arr = line.split('\t')
-			u = eval(arr[0])[0]
-			# print("u is ", u)
-			# print("For user u \n", test_df[test_df['user']==u])
-			test_data.append([u, eval(arr[0])[1], test_df[test_df['user'] == u]['rating']])
-			for i in arr[1:]:
-				test_data.append([u, int(i), 0])
-			line = fd.readline()
+	# with open(config.test_negative, 'r') as fd:
+	# 	line = fd.readline()
+	# 	while line != None and line != '':
+	# 		arr = line.split('\t')
+	# 		u = eval(arr[0])[0]
+	# 		# print("u is ", u)
+	# 		# print("For user u \n", test_df[test_df['user']==u])
+	# 		test_data.append([u, eval(arr[0])[1], test_df[test_df['user'] == u]['rating']])
+	# 		for i in arr[1:]:
+	# 			test_data.append([u, int(i), 0])
+	# 		line = fd.readline()
 	# print("test data is \n", test_data[:3])
 	return train_data, test_data, user_num, item_num, train_mat
 
@@ -125,13 +125,14 @@ class NCFData(data.Dataset):
 					self.features_ng.append([u, j])
 					# labels_ps.append(x[2])
 
-			labels_ps = [i[2] for i in self.features_ps]
-			# labels_ng = [0 for _ in range(len(self.features_ng))]
+			# labels_ps = [i[2] for i in self.features_ps]
+			labels_ng = [0 for _ in range(len(self.features_ng))]
 
-			# self.features_fill = self.features_ps +self.features_ng
-			self.features_fill = self.features_ps
-			# labels =  labels_ps + labels_ng
-			labels = labels_ps
+			self.features_fill = self.features_ps +self.features_ng
+			# self.features_fill = self.features_ps
+			labels =  labels_ps + labels_ng
+			# labels = labels_ps
+			####
 			# self.labels_fill = one_hot(torch.Tensor(labels).to(torch.long), num_classes=6)
 			self.labels_fill = torch.Tensor(labels).to(torch.long)
 			
