@@ -84,6 +84,7 @@ print("Making test loader")
 print("Length of test data before test loader is ", len(test_data))
 test_dataset = data_utils.NCFData(
 		test_data, item_num, train_mat, 0, True, args.classification)
+print("test dataset is false for training? ", test_dataset.is_training)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
 test_loader = data.DataLoader(test_dataset,
