@@ -44,6 +44,7 @@ def accuracy(model, test_loader):
 		item = item.cuda()
 		label = label.cuda()
 		prediction = model(user, item)
+		print("Prediction is \n", prediction)
 		argmax_prediction = torch.argmax(prediction, dim=1)
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
 		# correct += (argmax_prediction == label).float().sum()
