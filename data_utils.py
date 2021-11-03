@@ -63,6 +63,7 @@ def load_all_classification(test_num=100):
 		sep='\t', header=None, names=['user', 'item', 'rating'], 
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 
+	test_data = test_data.values.tolist()
 	# print("test_df is \n", test_df.head())
 
 	# with open(config.test_negative, 'r') as fd:
