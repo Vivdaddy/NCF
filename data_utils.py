@@ -56,7 +56,7 @@ def load_all_classification(test_num=100):
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in train_data:
 		train_mat[x[0], x[1]] = x[2]
-		train_labels.append[x[2]]
+		train_labels.append(x[2])
 
 	test_data = []
 	test_df = pd.read_csv(
@@ -70,7 +70,7 @@ def load_all_classification(test_num=100):
 	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in test_data:
 		test_mat[x[0], x[1]] = x[2]
-		test_labels.append[x[2]]
+		test_labels.append(x[2])
 	# print("test_df is \n", test_df.head())
 
 	# with open(config.test_negative, 'r') as fd:
