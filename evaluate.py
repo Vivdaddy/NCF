@@ -38,7 +38,7 @@ def metrics(model, test_loader, top_k):
 
 def accuracy(model, test_loader):
 	correct = 0
-	print("Length of test loader", len(test_loader))
+	# print("Length of test loader", len(test_loader))
 	for user, item, label in test_loader:
 		user = user.cuda()
 		item = item.cuda()
@@ -49,5 +49,6 @@ def accuracy(model, test_loader):
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
 		# correct += (argmax_prediction == label).float().sum()
 	print("Length of test dataset is ", len(test_loader.dataset))
+	print("Number correct is ", correct)
 	accuracy = 100* correct / len(test_loader.dataset)
 	return accuracy
