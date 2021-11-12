@@ -68,7 +68,7 @@ def uncertainty_and_accuracy(models, test_loader):
 			print("predictions shape is", prediction.shape)
 
 			ensemble_predictions.append(prediction)
-		ensemble_predictions = torch.cat(ensemble_predictions)
+		ensemble_predictions = torch.stack(ensemble_predictions)
 		print(ensemble_predictions.shape)
 		average_predictions = torch.mean(ensemble_predictions, dim=0)
 		print(average_predictions.shape)
