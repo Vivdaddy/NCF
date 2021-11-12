@@ -105,7 +105,7 @@ else:
 	MLP_model = None
 
 ensemble = [model.NCF(user_num, item_num, args.factor_num, args.num_layers, 
-						args.dropout, config.model, args.classification, GMF_model, MLP_model) for _ in range(args.num_ensemble).cuda()]
+						args.dropout, config.model, args.classification, GMF_model, MLP_model).cuda() for _ in range(args.num_ensemble)]
 
 if not args.classification:
 	loss_functions = [nn.BCEWithLogitsLoss() for _ in range(args.num_ensemble)]
