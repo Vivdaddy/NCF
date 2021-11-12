@@ -44,7 +44,7 @@ def accuracy(model, test_loader):
 		item = item.cuda()
 		label = label.cuda()
 		prediction = model(user, item)
-		print("Prediction is \n", prediction)
+		#print("Prediction is \n", prediction)
 		argmax_prediction = torch.argmax(prediction, dim=1)
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
 		# correct += (argmax_prediction == label).float().sum()
@@ -52,3 +52,13 @@ def accuracy(model, test_loader):
 	print("Number correct is ", correct)
 	accuracy = 100* correct / len(test_loader.dataset)
 	return accuracy
+
+
+def uncertainty_and_accuracy(models, test_loader):
+	correct = 0
+	for user, item, label in test_loader:
+		user = user.cuda()
+		item = item.cuda()
+		label = label.cuda()
+		
+	return u, a
