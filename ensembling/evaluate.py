@@ -75,7 +75,7 @@ def uncertainty_and_accuracy(models, test_loader):
 		argmax_prediction = torch.argmax(average_predictions, dim=1)
 		print("argmax_predictions shapoe ", argmax_prediction.shape)
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
-		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1)
+		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1).reshape_as(ensemble_predictions)
 		print("average predicctions shape ", average_predictions.shape)
 		print(average_predictions)
 		print("average_predictions reshaped", average_predictions.reshape_as(ensemble_predictions))
