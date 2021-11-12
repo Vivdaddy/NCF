@@ -78,8 +78,11 @@ def uncertainty_and_accuracy(models, test_loader):
 		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1).reshape_as(ensemble_predictions)
 		print("average predicctions shape ", average_predictions.shape)
 		print(average_predictions)
+
 		print("average_predictions reshaped", average_predictions.reshape_as(ensemble_predictions))
-		uncertainty += torch.nn.functional.kl_div(ensemble_predictions.cuda(), average_predictions.cuda(),reduction='mean')
+		ensemble_predictions.cuda()
+		average_predictions.cuda()
+		uncertainty += torch.nn.functional.kl_div(ensemble_predictions, average_predictions,reduction='mean')
 	print("Length of test dataset is ", len(test_loader.dataset))
 	print("Number correct is ", correct)
 	accuracy = 100* correct / len(test_loader.dataset)
