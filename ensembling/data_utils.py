@@ -114,7 +114,7 @@ def load_all_classification_lastfm(test_num=100):
 	train_labels = []
 	# load ratings as a dok matrix
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
-	for x in train_data.head(train_length):
+	for x in train_data[:train_length]:
 		train_mat[x[0], x[1]] = 1.0
 		train_labels.append(1)
 
