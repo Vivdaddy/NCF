@@ -69,7 +69,9 @@ def uncertainty_and_accuracy(models, test_loader):
 
 			ensemble_predictions.append(prediction)
 		ensemble_predictions = torch.cat(ensemble_predictions)
+		print(ensemble_predictions.shape)
 		average_predictions = torch.mean(ensemble_predictions, dim=0)
+		print(average_predictions.shape)
 		argmax_prediction = torch.argmax(average_predictions, dim=1)
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
 		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1)
