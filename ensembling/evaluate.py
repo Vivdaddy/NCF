@@ -65,7 +65,7 @@ def uncertainty_and_accuracy(models, test_loader):
 		print("ensemble predictions is ", ensemble_predictions)
 		for m in models:
 			prediction = torch.nn.functional.softmax(m(user, item), dim=1)
-			print("predictions is ", prediction)
+			print("predictions shape is", prediction.shape)
 
 			ensemble_predictions.append(prediction)
 		ensemble_predictions = torch.cat(ensemble_predictions)
