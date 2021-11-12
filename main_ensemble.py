@@ -174,7 +174,7 @@ for epoch in range(args.epochs):
 		elapsed_time = time.time() - start_time
 		print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
-		print("Accuracy{:.3f} , Uncertainty{:.3f}".format(np.mean(accuracy), uncertainty))
+		print("Accuracy", accuracy, "Uncertainty" , uncertainty)
 		if accuracy > best_acc:
 			best_acc, best_epoch = accuracy, epoch
 			if args.out:
