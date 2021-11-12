@@ -56,7 +56,7 @@ def accuracy(model, test_loader):
 
 def uncertainty_and_accuracy(models, test_loader):
 	correct = 0
-	uncertainty = torch.empty((1))
+	uncertainty = torch.Tensor([0]).cuda()
 	for user, item, label in test_loader:
 		user = user.cuda()
 		item = item.cuda()
