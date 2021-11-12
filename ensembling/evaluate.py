@@ -64,7 +64,8 @@ def uncertainty_and_accuracy(models, test_loader):
 		ensemble_predictions = []
 		# print("ensemble predictions is ", ensemble_predictions)
 		for m in models:
-			prediction = torch.nn.functional.softmax(m(user, item), dim=1)
+			# prediction = torch.nn.functional.softmax(m(user, item), dim=1)
+			prediction = m(user, item)
 			# print("predictions shape is", prediction.shape)
 
 			ensemble_predictions.append(prediction)
@@ -80,8 +81,8 @@ def uncertainty_and_accuracy(models, test_loader):
 		# print(average_predictions)
 
 		# print("average_predictions reshaped", average_predictions.reshape_as(ensemble_predictions))
-		ensemble_predictions.cuda()
-		average_predictions.cuda()
+		ensemble_predictions = torch.nn.functional.log_softmax(ensemble_predictions, -1).cuda()
+		average_predictions = torch.nn.functional.softmax(average_predictions, -1).cuda()
 		uncertainty += torch.nn.functional.kl_div(ensemble_predictions, average_predictions,reduction='mean')
 	print("Length of test dataset is ", len(test_loader.dataset))
 	print("Number correct is ", correct)
