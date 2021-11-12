@@ -56,9 +56,23 @@ def accuracy(model, test_loader):
 
 def uncertainty_and_accuracy(models, test_loader):
 	correct = 0
+	uncertainty = torch.empty((1))
 	for user, item, label in test_loader:
 		user = user.cuda()
 		item = item.cuda()
 		label = label.cuda()
-		
-	return u, a
+		ensemble_predictions = torch.empty(label.Size)
+		for m in models:
+			prediction = torch.nn.functional.softmax(m(user, item), dim=1)
+			ensemble_predictions = torch.stack((ensemble_predictions, prediction))
+		average_predictions = torch.mean(ensemble_predictions, dim=0)
+		argmax_prediction = torch.argmax(average_predictions, dim=1)
+		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
+		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1)
+		uncertainty += torch.nn.functional.kl_div(ensemble_predictions, average_predictions,reduction='mean')
+	print("Length of test dataset is ", len(test_loader.dataset))
+	print("Number correct is ", correct)
+	accuracy = 100* correct / len(test_loader.dataset)
+	uncertainty = uncertainty / len(test_loader.dataset)
+
+	return accuracy, uncertainty

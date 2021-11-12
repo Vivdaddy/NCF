@@ -170,7 +170,7 @@ for epoch in range(args.epochs):
 		print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
 									best_epoch, best_hr, best_ndcg))
 	else:
-		accuracy, uncertainty = evaluate.accuracy(ensemble, test_loader)
+		accuracy, uncertainty = evaluate.uncertainty_and_accuracy(ensemble, test_loader)
 		elapsed_time = time.time() - start_time
 		print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
