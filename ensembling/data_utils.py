@@ -97,6 +97,8 @@ def load_all_classification_lastfm(test_num=100):
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 	train_data = train_data.sort_values('timestamps')
 	length = len(train_data.index)
+	half_length = length // 2
+	train_data = train_data[:half_length]
 	train_length = (9 * length) // 10
 	test_length = length - train_length
 	train_data = train_data.values[:, -3:]
