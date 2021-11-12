@@ -110,7 +110,7 @@ ensemble = [model.NCF(user_num, item_num, args.factor_num, args.num_layers,
 if not args.classification:
 	loss_functions = [nn.BCEWithLogitsLoss() for _ in range(args.num_ensemble)]
 else:
-	loss_function = [nn.CrossEntropyLoss() for _ in range(args.num_ensemble)]
+	loss_functions = [nn.CrossEntropyLoss() for _ in range(args.num_ensemble)]
 
 if config.model == 'NeuMF-pre':
 	optimizers = [optim.SGD(m.parameters(), lr=args.lr) for m in ensemble]
