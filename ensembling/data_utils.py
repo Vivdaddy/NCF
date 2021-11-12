@@ -5,7 +5,7 @@ import scipy.sparse as sp
 import torch.utils.data as data
 from torch.nn.functional import one_hot
 import torch
-import config
+import ensembling.config as config
 
 
 def load_all(test_num=100):
@@ -71,6 +71,60 @@ def load_all_classification(test_num=100):
 	for x in test_data:
 		test_mat[x[0], x[1]] = x[2]
 		test_labels.append(x[2])
+	# print("test_df is \n", test_df.head())
+
+	# with open(config.test_negative, 'r') as fd:
+	# 	line = fd.readline()
+	# 	while line != None and line != '':
+	# 		arr = line.split('\t')
+	# 		u = eval(arr[0])[0]
+	# 		# print("u is ", u)
+	# 		# print("For user u \n", test_df[test_df['user']==u])
+	# 		test_data.append([u, eval(arr[0])[1], test_df[test_df['user'] == u]['rating']])
+	# 		for i in arr[1:]:
+	# 			test_data.append([u, int(i), 0])
+	# 		line = fd.readline()
+	# print("test data is \n", test_data[:3])
+	return train_data, test_data, user_num, item_num, train_mat, train_labels, test_labels
+
+
+
+def load_all_classification_lastfm(test_num=100):
+	""" We load all the three file here to save time in each epoch. """
+	train_data = pd.read_csv(
+		config.train_rating, 
+		sep='\t', header=None, names=['user', 'item', 'timestamps'], 
+		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
+	train_data = train_data.sort_values('2')
+	length = len(train_data.index)
+	train_length = (9 * length) // 10
+	test_length = length - train_length
+	train_data = train_data.values[:, -3:]
+	unique_users = sorted(list(set(data[:, 0])))
+	unique_items = sorted(list(set(data[:, 1])))
+	user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
+	item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
+	user_num = len(unique_users) + 1
+	item_num = len(unique_items) + 1
+	for (idx, row) in enumerate(train_data):
+		user,item,time = user_dic[row[0]],item_dic[row[1]],row[2]
+    	train_data[idx,0],train_data[idx,1] = int(user),int(item)
+	train_data = train_data.values.tolist()
+	train_labels = []
+	# load ratings as a dok matrix
+	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
+	for x in train_data.head(train_length):
+		train_mat[x[0], x[1]] = 1.0
+		train_labels.append(1)
+
+	test_data = train_data[-test_length -1:]
+	train_data = train_data[:train_length]
+	test_labels = []
+	# load ratings as a dok matrix
+	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
+	for x in test_data:
+		test_mat[x[0], x[1]] = 1
+		test_labels.append(1)
 	# print("test_df is \n", test_df.head())
 
 	# with open(config.test_negative, 'r') as fd:
