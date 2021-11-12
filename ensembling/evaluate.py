@@ -61,7 +61,7 @@ def uncertainty_and_accuracy(models, test_loader):
 		user = user.cuda()
 		item = item.cuda()
 		label = label.cuda()
-		ensemble_predictions = torch.empty(label.Size)
+		ensemble_predictions = torch.empty(label.size())
 		for m in models:
 			prediction = torch.nn.functional.softmax(m(user, item), dim=1)
 			ensemble_predictions = torch.stack((ensemble_predictions, prediction))
