@@ -61,12 +61,14 @@ def uncertainty_and_accuracy(models, test_loader):
 		user = user.cuda()
 		item = item.cuda()
 		label = label.cuda()
-		ensemble_predictions = torch.empty(label.size())
+		ensemble_predictions = []
 		print("ensemble predictions is ", ensemble_predictions)
 		for m in models:
 			prediction = torch.nn.functional.softmax(m(user, item), dim=1)
 			print("predictions is ", prediction)
-			ensemble_predictions = torch.stack((ensemble_predictions, prediction))
+
+			ensemble_predictions.append(prediction)
+		ensemble_predictions = torch.cat(ensemble_predictions)
 		average_predictions = torch.mean(ensemble_predictions, dim=0)
 		argmax_prediction = torch.argmax(average_predictions, dim=1)
 		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
