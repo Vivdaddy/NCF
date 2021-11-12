@@ -108,7 +108,7 @@ def load_all_classification_lastfm(test_num=100):
 	item_num = len(unique_items) + 1
 	for (idx, row) in enumerate(train_data):
 		user,item,time = user_dic[row[0]],item_dic[row[1]],row[2]
-    	train_data[idx,0],train_data[idx,1] = int(user),int(item)
+		train_data[idx,0],train_data[idx,1] = int(user),int(item)
 	train_data = train_data.values.tolist()
 	train_labels = []
 	# load ratings as a dok matrix
