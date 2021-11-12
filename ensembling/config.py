@@ -1,6 +1,6 @@
 # dataset name 
 dataset = 'lastfm'
-assert dataset in ['ml-1m', 'pinterest-20']
+assert dataset in ['ml-1m', 'pinterest-20', 'lastfm']
 
 # model name 
 model = 'NeuMF-end'
