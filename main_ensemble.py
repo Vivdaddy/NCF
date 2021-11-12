@@ -180,7 +180,7 @@ for epoch in range(args.epochs):
 			if args.out:
 				if not os.path.exists(config.model_path):
 					os.mkdir(config.model_path)
-				torch.save(model, 
+				# torch.save(model, 
 					'{}{}.pth'.format(config.model_path, config.model))
 
 		print("End. Best epoch {:03d}: Accuracy = {:.3f}".format(
