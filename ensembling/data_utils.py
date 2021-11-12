@@ -95,7 +95,7 @@ def load_all_classification_lastfm(test_num=100):
 		config.train_rating, 
 		sep='\t', header=None, names=['user', 'item', 'timestamps'], 
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
-	train_data = train_data.sort_values(2)
+	train_data = train_data.sort_values('timestamps')
 	length = len(train_data.index)
 	train_length = (9 * length) // 10
 	test_length = length - train_length
