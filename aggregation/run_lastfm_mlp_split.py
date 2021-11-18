@@ -30,7 +30,7 @@ Parameters:
     pert: size of random deletion for bootstrapping
 """
 
-input_path = "../../data/"
+input_path = "/home/vanand37/Research/NCF/aggregation/data/"
 data_kind = "lastfm"
 output_path = data_kind + "/user_MLP_split/"
 
