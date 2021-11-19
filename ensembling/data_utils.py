@@ -50,6 +50,7 @@ def load_all_classification(test_num=100):
 	user_num = train_data['user'].max() + 1
 	item_num = train_data['item'].max() + 1
 
+	print("We have User num =:", user_num, "Item num = :", item_num)
 	train_data = train_data.values.tolist()
 	train_labels = []
 	# load ratings as a dok matrix
