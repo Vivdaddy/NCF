@@ -100,7 +100,7 @@ class NCFData(data.Dataset):
 		self.train_mat = train_mat
 		self.num_ng = num_ng
 		self.is_training = is_training
-		self.labels = labels
+		#self.labels = labels
 		self.classification = classification
 
 	def ng_sample(self):
