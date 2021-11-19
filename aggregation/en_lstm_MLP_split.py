@@ -247,7 +247,7 @@ class Ensemble_LSTM(nn.Module):
 
 #============================
 
-        for epoch in range(20):
+        for epoch in range(2):
             self.epoch = epoch
             print("LSTMs - Epoch is: ", str(epoch))
 
@@ -315,7 +315,7 @@ class Ensemble_LSTM(nn.Module):
                     output, _ = lstm.forward(train_batch.detach())
                     # Adding the rank information
                     batch_size, num_items = list(output.size())[0], list(output.size())[1]
-                    ranked_list = [torch.Tensor(list(range(num_items)), dtype=torch.float32)]
+                    ranked_list = [torch.tensor(list(range(num_items)), dtype=torch.float32)]
                     ranked_tensor = torch.stack(ranked_list, dim=0).cuda()
                     output = ranked_tensor * output
                     outputs.append(output)
