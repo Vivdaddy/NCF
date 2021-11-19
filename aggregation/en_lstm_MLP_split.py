@@ -192,7 +192,7 @@ class Ensemble_LSTM(nn.Module):
         self.baseline_eval = list()
 
         # learning rate for LSTMs and MLPs
-        lstm_lr = 1e-4
+        lstm_lr = 5e-3
         mlp_lr = 5e-3
 
         print("Learning Rate: LSTM = {}, MLP-Iteim = {}".format(lstm_lr, mlp_lr))
@@ -247,7 +247,7 @@ class Ensemble_LSTM(nn.Module):
 
 #============================
 
-        for epoch in range(epochs):
+        for epoch in range(20):
             self.epoch = epoch
             print("LSTMs - Epoch is: ", str(epoch))
 
