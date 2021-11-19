@@ -247,7 +247,7 @@ class Ensemble_LSTM(nn.Module):
 
 #============================
 
-        for epoch in range(2):
+        for epoch in range(20):
             self.epoch = epoch
             print("LSTMs - Epoch is: ", str(epoch))
 
