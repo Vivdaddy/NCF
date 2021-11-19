@@ -122,6 +122,7 @@ unique_items = sorted(list(set(original_data[:, 1])))
 user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
 item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
 
+
 # Sort user ID, item ID in ascending order from 0 to n
 for (idx, row) in enumerate(original_data):
     user,item,time = user_dic[row[0]],item_dic[row[1]],row[2]

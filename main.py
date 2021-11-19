@@ -78,12 +78,12 @@ else:
 
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
-		train_data, item_num, train_labels, train_mat, 0, False, args.classification)
+		train_data, item_num,  train_mat, 0, False, args.classification)
 print("Making test loader")
 #print("Test data is ", test_data)
 print("Length of test data before test loader is ", len(test_data))
 test_dataset = data_utils.NCFData(
-		test_data, item_num, test_labels, train_mat, 0, False, args.classification)
+		test_data, item_num,  train_mat, 0, False, args.classification)
 print("test dataset is false for training? ", test_dataset.is_training)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)

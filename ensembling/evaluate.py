@@ -128,3 +128,41 @@ def uncertainty_and_accuracy_lastfm(models, test_loader):
 	uncertainty = uncertainty / len(test_loader.dataset)
 
 	return accuracy, uncertainty
+
+
+def uncertainty_and_accuracy_lastfm(models, test_loader):
+	correct = 0
+	uncertainty = torch.Tensor([0]).cuda()
+	for user, item, label in test_loader:
+		user = user.cuda()
+		item = item.cuda()
+		label = label.cuda()
+		ensemble_predictions = []
+		# print("ensemble predictions is ", ensemble_predictions)
+		for m in models:
+			# prediction = torch.nn.functional.softmax(m(user, item), dim=1)
+			prediction = m(user, item)
+			# print("predictions shape is", prediction.shape)
+
+			ensemble_predictions.append(prediction)
+		ensemble_predictions = torch.stack(ensemble_predictions)
+		# print("ensemble_predictions shape ", ensemble_predictions.shape)
+		average_predictions = torch.mean(ensemble_predictions, dim=0)
+		# print("average_predictions shape ", average_predictions.shape)
+		argmax_prediction = torch.argmax(average_predictions, dim=1)
+		# print("argmax_predictions shapoe ", argmax_prediction.shape)
+		correct += argmax_prediction.eq(label.view_as(argmax_prediction)).sum().item()
+		average_predictions = average_predictions.repeat(len(ensemble_predictions), 1).reshape_as(ensemble_predictions)
+		# print("average predicctions shape ", average_predictions.shape)
+		# print(average_predictions)
+
+		# print("average_predictions reshaped", average_predictions.reshape_as(ensemble_predictions))
+		# ensemble_predictions = torch.nn.functional.log_softmax(ensemble_predictions, -1).cuda()
+		# average_predictions = torch.nn.functional.softmax(average_predictions, -1).cuda()
+		# uncertainty += torch.nn.functional.kl_div(ensemble_predictions, average_predictions,reduction='mean')
+	print("Length of test dataset is ", len(test_loader.dataset))
+	print("Number correct is ", correct)
+	accuracy = 100* correct / len(test_loader.dataset)
+	uncertainty = uncertainty / len(test_loader.dataset)
+
+	return accuracy, uncertainty
