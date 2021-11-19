@@ -313,6 +313,11 @@ class Ensemble_LSTM(nn.Module):
                 for lstm_number in range(self.num_ensemble):
                     lstm = getattr(self, "lstm_"+str(lstm_number))
                     output, _ = lstm.forward(train_batch.detach())
+                    # Adding the rank information
+                    batch_size, num_items = list(output.size())[0], list(output.size())[1]
+                    ranked_list = [torch.Tensor(list(range(num_items)), dtype=torch.float32)]
+                    ranked_tensor = torch.stack(ranked_list, dim=0).cuda()
+                    output = ranked_tensor * output
                     outputs.append(output)
 
                 outputs = torch.stack(outputs, dim = 0)  #(num ensemble, batch size, num items)

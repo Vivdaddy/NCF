@@ -146,8 +146,8 @@ ensemble = Ensemble_LSTM(input_size=128, output_size=len(unique_items)+1, hidden
     num_ensemble=num_ensemble, device=device, initial = mlp_initial, bias = mlp_bias).to(device)
 ensemble_eval, baseline_eval = ensemble.train(train=train, test= test, valid = valid, epochs = epochs)
 
-np.save(output_path + "/acc_MLP_ensemble_" + str(num_ensemble) + "_set_init_"+ str(mlp_initial) +".npy", ensemble_eval)
-np.save(output_path + "/acc_baseline_" + str(num_ensemble) + "_set_init_"+ str(mlp_initial) +".npy", baseline_eval)
+np.save(output_path + "/acc_MLP_ensemble_ranked" + str(num_ensemble) + "_set_init_"+ str(mlp_initial) +".npy", ensemble_eval)
+np.save(output_path + "/acc_baseline_ranked" + str(num_ensemble) + "_set_init_"+ str(mlp_initial) +".npy", baseline_eval)
 
 print("Finished")
 
