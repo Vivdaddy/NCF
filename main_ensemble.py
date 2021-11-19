@@ -81,6 +81,7 @@ else:
 	train_data, test_data, user_num ,item_num, train_mat, train_labels, test_labels = data_utils.load_all_classification_lastfm()
 
 # construct the train and test datasets
+print("We have this many items: ", item_num)
 train_dataset = data_utils.NCFData(
 		train_data, item_num, train_labels, train_mat, 0, False, args.classification)
 print("Making test loader")

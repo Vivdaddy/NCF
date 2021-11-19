@@ -81,7 +81,7 @@ class Ensemble_LSTM(nn.Module):
                 current_val = np.zeros((outputs_mean.shape[0],1))
 
                 for i in range(st_idx,ed_idx):
-                    current_test_label = test_data[i][1]
+                    current_test_label = test_label[i-st_idx]
                     current_val[i-st_idx,0] = outputs_mean[i-st_idx,current_test_label]
 
                 outputs_diff = outputs_mean - current_val
@@ -112,7 +112,7 @@ class Ensemble_LSTM(nn.Module):
                 current_val = np.zeros((aggr_outputs.shape[0],1))
 
                 for i in range(st_idx,ed_idx):
-                    current_test_label = test_data[i][1]
+                    current_test_label = test_label[i-st_idx]
                     current_val[i-st_idx,0] = aggr_outputs[i-st_idx,current_test_label]
 
                 outputs_diff = aggr_outputs - current_val
@@ -164,7 +164,7 @@ class Ensemble_LSTM(nn.Module):
             current_val = np.zeros((outputs_mean.shape[0],1))
 
             for i in range(st_idx,ed_idx):
-                current_test_label = valid_data[i][1]
+                current_test_label = valid_label[i-st_idx]
                 current_val[i-st_idx,0] = outputs_mean[i-st_idx,current_test_label]
 
             outputs_diff = outputs_mean - current_val
