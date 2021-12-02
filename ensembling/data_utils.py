@@ -139,7 +139,7 @@ def load_all_classification_lastfm(test_num=100):
 	# 			test_data.append([u, int(i), 0])
 	# 		line = fd.readline()
 	# print("test data is \n", test_data[:3])
-	return train_data, test_data, user_num, item_num, train_mat, train_labels, test_labels
+	return train_data, test_data, user_num, item_num, train_mat, test_mat, train_labels, test_labels
 
 
 class NCFData(data.Dataset):
