@@ -60,9 +60,8 @@ parser.add_argument("--gpu",
 	type=str,
 	default="0",  
 	help="gpu card ID")
-parser.add_argument("--classification",
-	type=bool,
-	default=False,
+parser.add_argument("--classification", 
+	action='store_true',
 	help="Whether to use classification or not")
 parser.add_argument("--num_ensemble",
 	type=int,
