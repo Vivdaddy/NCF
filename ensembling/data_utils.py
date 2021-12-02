@@ -157,6 +157,7 @@ class NCFData(data.Dataset):
 		self.labels = labels
 		self.classification = classification
 		self.features_fill = None
+		self.labels_fill = None
 
 	def ng_sample(self):
 		assert self.is_training, 'no need to sampling when testing'
@@ -206,8 +207,7 @@ class NCFData(data.Dataset):
 
 	def __getitem__(self, idx):
 		features = self.features_fill if self.is_training else self.features_ps
-		labels = self.labels_fill if self.is_training \
-					else self.labels
+		labels = self.labels_fill if self.is_training else self.labels
 		user = features[idx][0]
 		item = features[idx][1]
 		label = labels[idx]
