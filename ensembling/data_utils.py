@@ -263,13 +263,13 @@ def train_test_split_user(data=[], test_ratio = 0.1, valid = None):
     unique_users = set(data[:,0])
     
     for (idx,row) in enumerate(data):
-		user,item,time = int(row[0]),int(row[1]),row[2]
-		if row[3]==0:
-			train.append([user, item])
-		elif row[3]==2:
-			test.append([user, item])
-		else:
-			valid.append([user, item])
+        user,item,time = int(row[0]),int(row[1]),row[2]
+        if row[3]==0:
+            train.append([user, item])
+        elif row[3]==2:
+            test.append([user, item])
+        else:
+            valid.append([user, item])
 
     print("unique users = {}, unique items = {}, user/item ratio = {:.1f}".format(len(unique_users),len(unique_items),len(unique_users)/len(unique_items)))
 
