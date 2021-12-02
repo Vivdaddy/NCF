@@ -239,7 +239,7 @@ class NCFData(data.Dataset):
 
 
 	def __len__(self):
-		return (self.num_ng + 1) * len(self.labels)
+		return (self.num_ng + 1) * len(self.labels_fill)
 
 	def __getitem__(self, idx):
 		features = self.features_fill if self.is_training else self.features_ps
