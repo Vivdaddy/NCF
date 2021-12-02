@@ -114,6 +114,7 @@ def load_all_regression_lastfm():
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in train_data[:train_length]:
 		train_mat[x[0], x[1]] = 1.0
+		train_labels.append(x[1])
 
 	test_data = train_data[-test_length -1:]
 	train_data = train_data[:train_length]
@@ -122,6 +123,7 @@ def load_all_regression_lastfm():
 	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in test_data:
 		test_mat[x[0], x[1]] = 1.0
+		test_labels.append(x[1])
 	return train_data, test_data, user_num, item_num, train_mat, test_mat, train_labels, test_labels
 
 def load_all_classification_lastfm(test_num=100):
