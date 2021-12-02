@@ -259,8 +259,8 @@ def train_test_split_user(data=[], test_ratio = 0.1, valid = None):
 	unique_items = sorted(list(set(new_data[:, 1])))
 	user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
 	item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
-    train, test, valid = [],[],[]
-    unique_users = set(data[:,0])
+	train, test, valid = [],[],[]
+	unique_users = set(data[:,0])
     
     for (idx,row) in enumerate(data):
       user,item,time = int(row[0]),int(row[1]),row[2]
