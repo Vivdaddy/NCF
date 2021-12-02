@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class NCF(nn.Module):
 	def __init__(self, user_num, item_num, factor_num, num_layers,
-					dropout, model, classification=True, GMF_model=None, MLP_model=None):
+					dropout, model, classification=False, GMF_model=None, MLP_model=None):
 		super(NCF, self).__init__()
 		"""
 		user_num: number of users;
