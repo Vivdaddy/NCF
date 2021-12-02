@@ -78,7 +78,7 @@ cudnn.benchmark = True
 if not args.classification:
 	train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all()
 else:
-	train_data, test_data, user_num ,item_num, train_mat, train_labels, test_labels = data_utils.load_all_classification_lastfm()
+	train_data, test_data, user_num ,item_num, train_mat, test_mat, train_labels, test_labels = data_utils.load_all_classification_lastfm()
 
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
@@ -87,12 +87,12 @@ print("Making test loader")
 #print("Test data is ", test_data)
 print("Length of test data before test loader is ", len(test_data))
 test_dataset = data_utils.NCFData(
-		test_data, item_num, test_labels, train_mat, 0, False, args.classification)
+		test_data, item_num, test_labels, test_mat, 0, False, args.classification)
 print("test dataset is false for training? ", test_dataset.is_training)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
 test_loader = data.DataLoader(test_dataset,
-		batch_size=args.test_num_ng+1, shuffle=False, num_workers=0)
+		batch_size=args.test_num_ng+1, shuffle=False, num_workers=2)
 
 ########################### CREATE MODEL #################################
 if config.model == 'NeuMF-pre':

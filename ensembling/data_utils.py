@@ -116,12 +116,7 @@ def load_all_classification_lastfm(test_num=100):
 	# load ratings as a dok matrix
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in train_data[:train_length]:
-		if x[0] % 2 < 0.5:
-			train_mat[x[0], x[1]] = 1.0
-			train_labels.append(1)
-		else:
-			train_mat[x[0], x[1]] = 2.0
-			train_labels.append(2)
+		train_mat[x[0], x[1]] = x[2]
 
 	test_data = train_data[-test_length -1:]
 	train_data = train_data[:train_length]
@@ -129,12 +124,7 @@ def load_all_classification_lastfm(test_num=100):
 	# load ratings as a dok matrix
 	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
 	for x in test_data:
-		if x[0] % 2 < 0.5:
-			test_mat[x[0], x[1]] = 1.0
-			test_labels.append(1)
-		else:
-			test_mat[x[0], x[1]] = 2.0
-			test_labels.append(2)
+		test_mat[x[0], x[1]] = x[2]
 	# print("test_df is \n", test_df.head())
 
 	# with open(config.test_negative, 'r') as fd:
