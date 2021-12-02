@@ -73,7 +73,7 @@ args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 cudnn.benchmark = True
 
-
+print("Args.classificaiton ", args.classification)
 ############################## PREPARE DATASET ##########################
 if not args.classification:
 	print("In regression")
