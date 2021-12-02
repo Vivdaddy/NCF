@@ -255,23 +255,23 @@ def train_test_split_user(data=[], test_ratio = 0.1, valid = None):
             for i in range(cur_valid):
                 interaction = sequence_dic[user].pop()
                 new_data[interaction[0],3] = 1
-	unique_users = sorted(list(set(new_data[:, 0])))
-	unique_items = sorted(list(set(new_data[:, 1])))
-	user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
-	item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
-	train, test, valid = [],[],[]
-	unique_users = set(data[:,0])
+    unique_users = sorted(list(set(new_data[:, 0])))
+    unique_items = sorted(list(set(new_data[:, 1])))
+    user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
+    item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
+    train, test, valid = [],[],[]
+    unique_users = set(data[:,0])
     
     for (idx,row) in enumerate(data):
-      user,item,time = int(row[0]),int(row[1]),row[2]
-      if row[3]==0:
-        train.append([user, item])
-      elif row[3]==2:
-        test.append([user, item])
-      else:
-        valid.append([user, item])
+		user,item,time = int(row[0]),int(row[1]),row[2]
+		if row[3]==0:
+			train.append([user, item])
+		elif row[3]==2:
+			test.append([user, item])
+		else:
+			valid.append([user, item])
 
-	print("unique users = {}, unique items = {}, user/item ratio = {:.1f}".format(len(unique_users),len(unique_items),len(unique_users)/len(unique_items)))
+    print("unique users = {}, unique items = {}, user/item ratio = {:.1f}".format(len(unique_users),len(unique_items),len(unique_users)/len(unique_items)))
 
     return new_data
 
@@ -284,14 +284,14 @@ def sequence_generator(data):
     #items_per_user = {int(user):[0 for i in range(look_back)] for user in unique_users}
     
     for (idx,row) in enumerate(data):
-      user,item,time = int(row[0]),int(row[1]),row[2]
-      # items_per_user[user] = items_per_user[user][1:]+[item+1]
-      # current_items = items_per_user[user]
-      if row[3]==0:
-        train.append([user, item])
-      elif row[3]==2:
-        test.append([user, item])
-      else:
-        valid.append([user, item])
+        user,item,time = int(row[0]),int(row[1]),row[2]
+        # items_per_user[user] = items_per_user[user][1:]+[item+1]
+        # current_items = items_per_user[user]
+        if row[3]==0:
+            train.append([user, item])
+        elif row[3]==2:
+            test.append([user, item])
+        else:
+            valid.append([user, item])
                                           
     return train, valid, test
