@@ -88,6 +88,41 @@ def load_all_classification(test_num=100):
 	return train_data, test_data, user_num, item_num, train_mat, train_labels, test_labels
 
 
+def load_all_regression_lastfm():
+	print("Loading data for lastfm regression")
+	train_data = pd.read_csv(
+		config.train_rating, 
+		sep='\t', header=None, names=['user', 'item', 'timestamps'], 
+		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
+	train_data = train_data.sort_values('timestamps')
+	length = len(train_data.index)
+	train_length = (9 * length) // 10
+	test_length = length - train_length
+	train_data = train_data.values[:, -3:]
+	unique_users = sorted(list(set(train_data[:, 0])))
+	unique_items = sorted(list(set(train_data[:, 1])))
+	user_dic = {user:idx for (idx,user) in enumerate(unique_users)}
+	item_dic = {item:idx for (idx,item) in enumerate(unique_items)}
+	user_num = len(unique_users) + 1
+	item_num = len(unique_items) + 1
+	for (idx, row) in enumerate(train_data):
+		user,item,time = user_dic[row[0]],item_dic[row[1]],row[2]
+		train_data[idx,0],train_data[idx,1] = int(user),int(item)
+	print("Train data is \n",train_data)
+	train_labels = []
+	# load ratings as a dok matrix
+	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
+	for x in train_data[:train_length]:
+		train_mat[x[0], x[1]] = 1.0
+
+	test_data = train_data[-test_length -1:]
+	train_data = train_data[:train_length]
+	test_labels = []
+	# load ratings as a dok matrix
+	test_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
+	for x in test_data:
+		test_mat[x[0], x[1]] = 1.0
+	return train_data, test_data, user_num, item_num, train_mat, test_mat, train_labels, test_labels
 
 def load_all_classification_lastfm(test_num=100):
 	""" We load all the three file here to save time in each epoch. """
@@ -189,7 +224,8 @@ class NCFData(data.Dataset):
 					self.features_ng.append([u, j])
 					# labels_ps.append(x[2])
 
-			labels_ps = [i[2] for i in self.features_ps]
+			self.features_ps = [[i[0], i[1]] for i in self.features_ps]
+			labels_ps = [i[1] for i in self.features_ps]
 			labels_ng = [0 for _ in range(len(self.features_ng))]
 
 			self.features_fill = self.features_ps +self.features_ng

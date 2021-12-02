@@ -76,7 +76,7 @@ cudnn.benchmark = True
 
 ############################## PREPARE DATASET ##########################
 if not args.classification:
-	train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all()
+	train_data, test_data, user_num ,item_num, train_mat = data_utils.load_all_regression_lastfm()
 else:
 	train_data, test_data, user_num ,item_num, train_mat, test_mat, train_labels, test_labels = data_utils.load_all_classification_lastfm()
 
