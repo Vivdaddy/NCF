@@ -124,6 +124,7 @@ def load_all_regression_lastfm():
 	for x in test_data:
 		test_mat[x[0], x[1]] = 1.0
 		test_labels.append(x[1])
+	train_data = [[t[0], t[1]] for t in train_data] 
 	return train_data, test_data, user_num, item_num, train_mat, test_mat, train_labels, test_labels
 
 def load_all_classification_lastfm(test_num=100):
