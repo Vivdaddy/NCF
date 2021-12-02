@@ -242,6 +242,7 @@ class NCFData(data.Dataset):
 		return (self.num_ng + 1) * len(self.labels_fill)
 
 	def __getitem__(self, idx):
+		print("Idx is ", idx)
 		features = self.features_fill if self.is_training else self.features_ps
 		labels = self.labels_fill if self.is_training else self.labels
 		user = features[idx][0]
