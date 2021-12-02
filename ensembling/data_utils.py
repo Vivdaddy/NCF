@@ -91,14 +91,13 @@ def load_all_classification(test_num=100):
 
 def load_all_classification_lastfm(test_num=100):
 	""" We load all the three file here to save time in each epoch. """
+	print("Loading data for classification")
 	train_data = pd.read_csv(
 		config.train_rating, 
 		sep='\t', header=None, names=['user', 'item', 'timestamps'], 
 		usecols=[0, 1, 2], dtype={0: np.int32, 1: np.int32, 2: np.int32})
 	train_data = train_data.sort_values('timestamps')
 	length = len(train_data.index)
-	half_length = length // 2
-	# train_data = train_data[:half_length]
 	train_length = (9 * length) // 10
 	test_length = length - train_length
 	train_data = train_data.values[:, -3:]
@@ -112,7 +111,7 @@ def load_all_classification_lastfm(test_num=100):
 		user,item,time = user_dic[row[0]],item_dic[row[1]],row[2]
 		train_data[idx,0],train_data[idx,1] = int(user),int(item)
 	# train_data = train_data.values.tolist()
-	print(train_data)
+	print("Train data is \n",train_data)
 	train_labels = []
 	# load ratings as a dok matrix
 	train_mat = sp.dok_matrix((user_num, item_num), dtype=np.float32)
