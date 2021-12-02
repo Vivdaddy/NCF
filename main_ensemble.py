@@ -83,6 +83,7 @@ else:
 # construct the train and test datasets
 train_dataset = data_utils.NCFData(
 		train_data, item_num, train_labels, train_mat, 1, True, args.classification)
+train_dataset.ng_sample()
 print("Making test loader")
 #print("Test data is ", test_data)
 print("Length of test data before test loader is ", len(test_data))
