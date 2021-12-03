@@ -95,7 +95,7 @@ test_dataset = data_utils.TestData(test_data, item_num)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
 test_loader = data.DataLoader(test_dataset,
-		batch_size=args.test_num_ng+1, shuffle=False, num_workers=2)
+		batch_size=item_num, shuffle=False, num_workers=2)
 
 ########################### CREATE MODEL #################################
 if config.model == 'NeuMF-pre':
