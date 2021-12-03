@@ -127,6 +127,7 @@ else:
 count, best_hr = 0, 0
 best_acc = 0
 best_epoch = 0
+best_ndcg =0 
 for epoch in range(args.epochs):
 	for m in ensemble:
 		m.train() # Enable dropout (if have).
