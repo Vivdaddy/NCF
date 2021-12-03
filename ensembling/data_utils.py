@@ -189,6 +189,20 @@ class TestData(data.Dataset):
 		self.num_items = num_items
 		self.labels = torch.Tensor([1 for f in features]).to(torch.long)
 
+	def pad(self):
+		padded_features = []
+		num_items = self.num_items
+		labels = []
+		for feature in self.features:
+			padded_features.append([feature[0], feature[1]])
+			labels.append(1.)
+			for item in range(num_items):
+				if item != feature[1]:
+					padded_features.append([feature[0], item])
+					labels.append(0.)
+		self.padded_features = padded_features
+		self.labels = labels
+
 	def __len__(self):
 		return len(self.features)
 
