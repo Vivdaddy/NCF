@@ -207,7 +207,7 @@ class TestData(data.Dataset):
 		return len(self.features)
 
 	def __getitem__(self, idx):
-		features = self.features
+		features = self.padded_features
 		labels = self.labels
 		user = features[idx][0]
 		item = features[idx][1]
