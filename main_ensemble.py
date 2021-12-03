@@ -87,8 +87,10 @@ train_dataset.ng_sample()
 print("Making test loader")
 #print("Test data is ", test_data)
 print("Length of test data before test loader is ", len(test_data))
-test_dataset = data_utils.NCFData(
-		test_data, item_num, test_labels, test_mat, 0, False, args.classification)
+print("Item num is ", item_num)
+# test_dataset = data_utils.NCFData(
+# 		test_data, item_num, test_labels, test_mat, 0, False, args.classification)
+test_dataset = data_utils.TestData(test_data, item_num)
 print("test dataset is false for training? ", test_dataset.is_training)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)

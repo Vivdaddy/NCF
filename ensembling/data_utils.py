@@ -180,6 +180,39 @@ def load_all_classification_lastfm(test_num=100):
 	return train_data, test_data, user_num, item_num, train_mat, test_mat, train_labels, test_labels
 
 
+
+class TestData(data.Dataset):
+	def __init__(self, features, num_items):
+		super(TestData, self).__init__()
+		self.features = features
+		self.padded_features = []
+		self.num_items = num_items
+
+	def pad(self):
+		padded_features = []
+		num_items = self.num_items
+		labels = []
+		for feature in self.features:
+			for item in range(num_items):
+				padded_features.append([feature[0], item])
+				if item == feature[1]:
+					labels.append(1.0)
+				else:
+					labels.append(0.)
+		self.padded_features = padded_features
+		self.labels = labels
+
+	def __len__(self):
+		return len(self.padded_features)
+
+	def __get_item__(self, idx):
+		features = self.features
+		labels = self.labels
+		user = features[idx][0]
+		item = features[idx][1]
+		label = labels[idx]
+		return user, item , label
+
 class NCFData(data.Dataset):
 	def __init__(self, features, 
 				num_item, labels, train_mat=None, num_ng=0, is_training=True, classification=True):
