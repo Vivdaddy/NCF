@@ -202,7 +202,7 @@ class TestData(data.Dataset):
 
 class PaddedData(data.Dataset):
 	def __init__(self, features, num_items):
-		super(TestData, self).__init__()
+		super(PaddedData, self).__init__()
 		self.features = features
 		self.padded_features = []
 		self.num_items = num_items
