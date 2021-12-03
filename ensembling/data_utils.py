@@ -187,7 +187,7 @@ class TestData(data.Dataset):
 		self.features = features
 		self.padded_features = []
 		self.num_items = num_items
-		self.labels = [f[1] for f in features]
+		self.labels = [1. for f in features]
 
 	def __len__(self):
 		return len(self.features)
@@ -197,7 +197,7 @@ class TestData(data.Dataset):
 		labels = self.labels
 		user = features[idx][0]
 		item = features[idx][1]
-		label = 1
+		label = labels[idx]
 		return user, item , label
 
 class PaddedData(data.Dataset):
