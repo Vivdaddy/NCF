@@ -197,7 +197,7 @@ class TestData(data.Dataset):
 		labels = self.labels
 		user = features[idx][0]
 		item = features[idx][1]
-		label = labels[idx]
+		label = 1
 		return user, item , label
 
 class PaddedData(data.Dataset):

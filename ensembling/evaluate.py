@@ -24,8 +24,8 @@ def metrics(model, test_loader, top_k):
 		user = user.cuda()
 		item = item.cuda()
 		predictions = model(user, item)
-		# print("predictions \n", predictions)
-		# print("topk ", top_k)
+		print("predictions \n", predictions)
+		print("topk ", top_k)
 		_, indices = torch.topk(predictions, top_k)
 		recommends = torch.take(
 				item, indices).cpu().numpy().tolist()
