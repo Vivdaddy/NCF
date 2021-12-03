@@ -156,6 +156,7 @@ for epoch in range(args.epochs):
 		m.eval()
 
 	if not args.classification:
+		# Change later
 		HR, NDCG = evaluate.metrics(ensemble[0], test_loader, args.top_k)
 
 		elapsed_time = time.time() - start_time
