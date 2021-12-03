@@ -91,7 +91,7 @@ print("Item num is ", item_num)
 # test_dataset = data_utils.NCFData(
 # 		test_data, item_num, test_labels, test_mat, 0, False, args.classification)
 test_dataset = data_utils.TestData(test_data, item_num)
-print("test dataset is false for training? ", test_dataset.is_training)
+# print("test dataset is false for training? ", test_dataset.is_training)
 train_loader = data.DataLoader(train_dataset,
 		batch_size=args.batch_size, shuffle=True, num_workers=4)
 test_loader = data.DataLoader(test_dataset,
