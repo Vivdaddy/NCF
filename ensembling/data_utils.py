@@ -187,12 +187,12 @@ class TestData(data.Dataset):
 		self.features = features
 		self.padded_features = []
 		self.num_items = num_items
-		self.labels = [1. for f in features]
+		self.labels = torch.Tensor([1 for f in features]).to(torch.long)
 
 	def __len__(self):
 		return len(self.features)
 
-	def __get_item__(self, idx):
+	def __getitem__(self, idx):
 		features = self.features
 		labels = self.labels
 		user = features[idx][0]
@@ -222,7 +222,7 @@ class PaddedData(data.Dataset):
 	def __len__(self):
 		return len(self.padded_features)
 
-	def __get_item__(self, idx):
+	def __getitem__(self, idx):
 		features = self.features
 		labels = self.labels
 		user = features[idx][0]
