@@ -187,6 +187,25 @@ class TestData(data.Dataset):
 		self.features = features
 		self.padded_features = []
 		self.num_items = num_items
+		self.labels = [f[1] for f in features]
+
+	def __len__(self):
+		return len(self.features)
+
+	def __get_item__(self, idx):
+		features = self.features
+		labels = self.labels
+		user = features[idx][0]
+		item = features[idx][1]
+		label = labels[idx]
+		return user, item , label
+
+class PaddedData(data.Dataset):
+	def __init__(self, features, num_items):
+		super(TestData, self).__init__()
+		self.features = features
+		self.padded_features = []
+		self.num_items = num_items
 
 	def pad(self):
 		padded_features = []
@@ -194,10 +213,8 @@ class TestData(data.Dataset):
 		labels = []
 		for feature in self.features:
 			for item in range(num_items):
-				padded_features.append([feature[0], item])
-				if item == feature[1]:
-					labels.append(1.0)
-				else:
+				if item != feature[1]:
+					padded_features.append([feature[0], item])
 					labels.append(0.)
 		self.padded_features = padded_features
 		self.labels = labels
@@ -212,6 +229,7 @@ class TestData(data.Dataset):
 		item = features[idx][1]
 		label = labels[idx]
 		return user, item , label
+
 
 class NCFData(data.Dataset):
 	def __init__(self, features, 
